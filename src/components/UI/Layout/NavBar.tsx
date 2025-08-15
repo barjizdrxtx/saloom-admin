@@ -29,7 +29,7 @@ export const NavBar = () => {
         <img
           className="cursor-pointer"
           onClick={() => router.push("/masters/orders")}
-          width="60px"
+          width="100px"
           src="/assets/logo.png"
           alt="Logo"
         />

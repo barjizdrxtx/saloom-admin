@@ -13,7 +13,7 @@ const config: Config = {
         // You can add other custom breakpoints as needed
       },
       colors: {
-        primary: "#1E90FF", // Define your custom color
+        primary: "#D38729", // Define your custom color
         secondary: "#CFA93C", // Define your custom color
         secondary_light:"#fdf9ec",
         secondary_dark: "#230203",
