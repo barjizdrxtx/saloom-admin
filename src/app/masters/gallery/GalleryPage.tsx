@@ -97,11 +97,11 @@ const GalleryPage = ({ editId }: any) => {
   return (
     <div classtitle="w-full">
       <FormikForm
-        title={editId ? "Edit Product" : "New Product"}
+        title={editId ? "Edit Gallery" : "New Gallery"}
         formData={formData}
         formik={formik}
         editId={editId}
-        path="/masters/products"
+        path="/masters/gallery"
       />
     </div>
   );
