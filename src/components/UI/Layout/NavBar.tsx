@@ -11,11 +11,11 @@ export const NavBar = () => {
   const router = useRouter();
   const [isPopup, setIsPopup] = useState(false);
 
-  const adminToken = Cookies.get("adminToken");
+  const adminToken = Cookies.get("saloom_access_token");
   const decodedToken: any = useJwtDecode(adminToken);
 
   const handleLogout = async () => {
-    Cookies.remove("adminToken");
+    Cookies.remove("saloom_access_token");
     Cookies.remove("authToken");
     window.location.reload();
   };

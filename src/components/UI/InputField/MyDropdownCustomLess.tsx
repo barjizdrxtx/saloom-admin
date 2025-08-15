@@ -34,7 +34,7 @@ const MyDropdownCustomLess = ({
     }
   }, [value, data, setDisabledColor]);
 
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const handleSelectOption = (selectedValue: any) => {
     setIsOpen(false);

@@ -31,7 +31,7 @@ const TableUI2 = ({
     setIsLoading(true);
     setError(null);
     try {
-      const token = Cookies.get("adminToken") || "";
+      const token = Cookies.get("saloom_access_token") || "";
       const response = await axios.get(apiName, {
         params: { page: currentPage, limit },
         headers: { Authorization: token ? `Bearer ${token}` : "" },

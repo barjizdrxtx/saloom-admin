@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 
 export const useQueryFetch = (url: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,
@@ -27,7 +27,7 @@ export const useQueryFetch = (url: any) => {
 };
 
 export const useQueryFetch2 = (url: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,
@@ -52,7 +52,7 @@ export const useQueryFetch2 = (url: any) => {
 };
 
 export const useQueryFetchEnabled = (url: any, enabled: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,
@@ -79,7 +79,7 @@ export const useQueryFetchEnabled = (url: any, enabled: any) => {
 };
 
 export const useQueryFetchRaw = (url: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,
@@ -100,7 +100,7 @@ export const useQueryFetchRaw = (url: any) => {
 };
 
 export const useQueryFetchTable = (url: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,
@@ -121,7 +121,7 @@ export const useQueryFetchTable = (url: any) => {
 };
 
 export const useQueryFetchTable2 = (url: any, enabled: any) => {
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const {
     isLoading,

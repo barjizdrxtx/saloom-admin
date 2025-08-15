@@ -75,7 +75,7 @@ const Page = () => {
       try {
         const { data } = await axios.post("auth/login", values);
         if (data?.success) {
-          Cookies.set("adminToken", data?.result?.access_token);
+          Cookies.set("saloom_access_token", data?.result?.access_token);
           message.success("Login Successful");
           router.push("/masters/products");
         } else {

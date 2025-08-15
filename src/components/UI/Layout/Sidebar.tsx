@@ -15,7 +15,7 @@ export const SideBar = () => {
 
   const [isPopup, setIsPopup] = useState(false);
 
-  const admin = Cookies.get("adminToken");
+  const admin = Cookies.get("saloom_access_token");
 
   const decodedToken: any = useJwtDecode(admin);
 
@@ -180,7 +180,7 @@ export const SideBar = () => {
       {isPopup && (
         <div
           onClick={async () => {
-            await Cookies.remove("adminToken");
+            await Cookies.remove("saloom_access_token");
             window.location.reload();
           }}
           className="fixed right-10 top-20 z-50 shadow-2xl bg-white/20 backdrop-blur-lg rounded-xl py-1 pl-2 pr-10 flex 

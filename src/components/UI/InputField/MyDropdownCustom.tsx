@@ -28,7 +28,7 @@ const MyDropdownCustom = ({
     setDisabledColor(selectedValue[data.dropTitle]);
   };
 
-  const token = Cookies.get("adminToken");
+  const token = Cookies.get("saloom_access_token");
 
   const onDelete = (id: any) => {
     axios

@@ -46,7 +46,7 @@ const GalleryPage = ({ editId }: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        const token = Cookies.get("adminToken") || "";
+        const token = Cookies.get("saloom_access_token") || "";
 
         // Build FormData; only append image if it's a File (i.e., user picked a new one)
         const fd = new FormData();

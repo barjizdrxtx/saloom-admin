@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 export async function middleware(request: NextRequest) {
   try {
-    const adminToken: any = request.cookies.get("adminToken") || null;
+    const adminToken: any = request.cookies.get("saloom_access_token") || null;
 
     let isAuthTokenValid = false;
     let decodedAuthToken: any = null;

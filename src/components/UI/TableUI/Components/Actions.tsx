@@ -15,7 +15,7 @@ export default function Actions({
   actionButton,
 }: any) {
   const router = useRouter();
-  const token = Cookies.get("adminToken") || "";
+  const token = Cookies.get("saloom_access_token") || "";
 
   // Don't render if no actions specified
   if (!actionButton || actionButton.length === 0) {
