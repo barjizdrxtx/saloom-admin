@@ -10,13 +10,13 @@ import { message } from "antd";
 import { User, Lock, Eye, EyeOff, BadgeCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
-// ------------------ Validation ------------------
+// Validation
 const loginSchema = yup.object({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
 });
 
-// ------------------ Reusable Input ------------------
+// Input Field
 function InputField({
   label,
   name,
@@ -27,32 +27,18 @@ function InputField({
   error,
   icon,
   rightSlot,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  onBlur: React.FocusEventHandler<HTMLInputElement>;
-  error?: string | false;
-  icon?: React.ReactNode;
-  rightSlot?: React.ReactNode;
-}) {
+}: any) {
   return (
     <div className="mb-5">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-[#4A2515] mb-2">
         {label}
       </label>
       <div
-        className={`relative flex items-center rounded-2xl border bg-white transition focus-within:shadow-lg focus-within:shadow-blue-100/70 focus-within:ring-2 focus-within:ring-blue-200 ${
-          error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200"
+        className={`relative flex items-center rounded-2xl border bg-white transition focus-within:shadow-lg focus-within:shadow-[#D38729]/30 focus-within:ring-2 focus-within:ring-[#D38729] ${
+          error ? "border-red-400 ring-2 ring-red-100" : "border-gray-300"
         }`}
       >
-        {icon ? (
-          <span className="pl-3 pr-1 text-gray-400 flex items-center">
-            {icon}
-          </span>
-        ) : null}
+        {icon && <span className="pl-3 pr-1 text-gray-400">{icon}</span>}
         <input
           id={name}
           name={name}
@@ -64,22 +50,21 @@ function InputField({
           autoComplete="off"
           className="w-full py-3 px-3 rounded-2xl outline-none bg-white text-gray-900 placeholder:text-gray-400"
         />
-        {rightSlot ? (
+        {rightSlot && (
           <span className="absolute right-3 inset-y-0 flex items-center">
             {rightSlot}
           </span>
-        ) : null}
+        )}
       </div>
-      {error ? (
+      {error && (
         <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>
-      ) : null}
+      )}
     </div>
   );
 }
 
-// ------------------ Page ------------------
-
-const page = () => {
+// Page
+const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -108,22 +93,21 @@ const page = () => {
   const passErr = (formik.touched.password && formik.errors.password) || "";
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gray-50">
-      {/* Decorative gradient blobs (no images) */}
-      <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-500 opacity-25 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-gradient-to-tr from-sky-400 to-violet-500 opacity-25 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-40 w-40 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 opacity-20 blur-2xl" />
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#FBF3EA]">
+      {/* Decorative circles */}
+      <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-[#D38729] opacity-20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-[#4A2515] opacity-20 blur-3xl" />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-3xl border border-white/60 bg-white/70 backdrop-blur-xl shadow-[0_10px_60px_-15px_rgba(0,0,0,0.2)] md:grid-cols-2"
+          className="grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-3xl border border-white/40 bg-white/80 backdrop-blur-xl shadow-[0_10px_50px_-15px_rgba(0,0,0,0.2)] md:grid-cols-2"
         >
           {/* Left panel */}
           <div className="relative hidden md:block">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#D38729] via-[#ff773d] to-[#c34a16]" />
             <div className="relative flex h-full flex-col justify-between p-10 text-white">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur">
@@ -138,11 +122,10 @@ const page = () => {
                   dashboard up to date.
                 </p>
               </div>
-
               <ul className="mt-10 space-y-4">
                 {[
-                  "Lightning‑fast dashboard",
-                  "Role‑based secure login",
+                  "Lightning-fast dashboard",
+                  "Role-based secure login",
                   "Modern, responsive UI",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
@@ -153,20 +136,19 @@ const page = () => {
                   </li>
                 ))}
               </ul>
-
               <div className="text-xs text-white/70">
                 © {new Date().getFullYear()} Dashboard
               </div>
             </div>
           </div>
 
-          {/* Right panel (form) */}
+          {/* Right panel */}
           <div className="p-8 md:p-10">
             <div className="mb-8 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-[#4A2515]">
                 Login to Dashboard
               </h2>
-              <p className="mt-1 text-gray-500">
+              <p className="mt-1 text-gray-600">
                 Please enter your details to proceed
               </p>
             </div>
@@ -178,10 +160,9 @@ const page = () => {
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={userErr as string}
+                error={userErr}
                 icon={<User className="h-5 w-5" />}
               />
-
               <InputField
                 label="Password"
                 name="password"
@@ -189,7 +170,7 @@ const page = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={passErr as string}
+                error={passErr}
                 icon={<Lock className="h-5 w-5" />}
                 rightSlot={
                   <button
@@ -208,23 +189,18 @@ const page = () => {
                   </button>
                 }
               />
-
-         
-
               <button
                 type="submit"
                 disabled={formik.isSubmitting}
-                className={`group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-white shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 ${
+                className={`group relative inline-flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-[#D38729] to-[#d34d13] px-4 py-3 text-white shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D38729] ${
                   formik.isSubmitting
                     ? "opacity-80"
-                    : "hover:from-blue-700 hover:to-indigo-700"
+                    : "hover:from-[#4A2515] hover:to-[#D38729]"
                 }`}
               >
                 <span className="absolute inset-0 -z-10 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 {formik.isSubmitting ? "Signing in…" : "Login"}
               </button>
-
-        
             </form>
           </div>
         </motion.div>
@@ -233,4 +209,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
