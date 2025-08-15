@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+
+  cursor: default;
+
+  font-family: "Inter"
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #868686;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #979797;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #CFA93D 40%, #F57518 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+.bg-gold {
+  background: linear-gradient(to right, #AA8040, #F4D461);
+}
+
+.border-gold {
+  border: 1px solid;
+  border-color: #F4D461;
+  border-radius: 100px;
+  /* Adjust the value as needed */
+}
+
+.text-gold {
+  background: linear-gradient(to right, #bd3900, #f6efa3);
+  /* Adjust color stops and direction as needed */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold2 {
+  background: linear-gradient(to right, #bd3900, #c5b500);
+  /* Adjust color stops and direction as needed */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.custom-col-1 {
+  grid-column: span 1 / span 1;
+  /* Occupies one column */
+}
+
+.custom-col-2 {
+  grid-column: span 2 / span 2;
+  /* Occupies two columns */
+}
+
+.custom-col-1half {
+  grid-column: span 1 / span 1.5;
+  /* Occupies two columns */
+}
+
+.custom-col-3 {
+  grid-column: span 3 / span 3;
+  /* Occupies three columns */
+}
