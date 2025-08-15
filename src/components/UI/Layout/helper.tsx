@@ -9,7 +9,10 @@ export const siderbar = [
       {
         name: "All Products",
         icon: "inventory_2",
-        children: [{ text: "List All Products", path: "/masters/products" }],
+        children: [
+          { text: "List All Products", path: "/masters/products" },
+          { text: "Create Products", path: "/masters/products/create" },
+        ],
       },
       {
         name: "All Categories",
@@ -33,6 +36,14 @@ export const siderbar = [
         children: [
           { text: "List All Gallery", path: "/masters/gallery" },
           { text: "Create Gallery", path: "/masters/gallery/create" },
+        ],
+      },
+      {
+        name: "Banner",
+        icon: "ad",
+        children: [
+          { text: "List All   Banner", path: "/masters/banner" },
+          { text: "Create Banner", path: "/masters/banner/create" },
         ],
       },
     ],
