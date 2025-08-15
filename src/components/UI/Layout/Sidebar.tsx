@@ -146,7 +146,7 @@ export const SideBar = () => {
         <div>
           <img
             className="ml-10 cursor-pointer"
-            onClick={() => router.push("/masters/orders")}
+            onClick={() => router.push("/masters/products")}
             width="60px"
             src="/assets/logo.png"
             alt="Logo"

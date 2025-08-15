@@ -28,7 +28,7 @@ export const NavBar = () => {
       <div className="flex justify-start">
         <img
           className="cursor-pointer"
-          onClick={() => router.push("/masters/orders")}
+          onClick={() => router.push("/masters/products")}
           width="100px"
           src="/assets/logo.png"
           alt="Logo"

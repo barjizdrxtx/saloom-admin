@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
     // Always redirect from root path to dashboard if user is logged in
     if (isRootPage) {
       if (isAuthTokenValid) {
-        return NextResponse.redirect(new URL("/masters/orders", request.url));
+        return NextResponse.redirect(new URL("/masters/products", request.url));
       } else {
         return NextResponse.redirect(new URL("/login", request.url)); // Redirect to login if not authenticated
       }
@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
 
     // Prevent logged-in users from accessing the login page
     if (isLoginPage && isAuthTokenValid) {
-      return NextResponse.redirect(new URL("/masters/orders", request.url));
+      return NextResponse.redirect(new URL("/masters/products", request.url));
     }
 
     // Redirect to login page if the user is not logged in and trying to access a protected route
