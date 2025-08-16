@@ -11,6 +11,8 @@ const ProductsPage = () => {
     apiName: "products",
     getById: "id",
     createButtonText: "Add Product",
+    deleteApi: "products",
+    editUrl: "products",
     tableColumns: [
       {
         title: "Image",

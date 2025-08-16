@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import CategoryPage from "../../CategoryPage";
+import ProductForm from "../../ProductForm";
 
 const page = ({ params }: any) => {
   
   const { id } = params;
 
   return (
-    <div>
-      <CategoryPage editId={id} />
-    </div>
+    <>
+      <ProductForm editId={id} />
+    </>
   );
 };
 

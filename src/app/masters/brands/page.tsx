@@ -12,8 +12,8 @@ const page = () => {
     createButton: "/masters/brands/create", // route for the blank “Create” form
     createButtonText: "Add Brand",
     detailsRoute: `/masters/brands/sub`,
-    deleteApi: "categories",
-    editUrl: "categories",
+    deleteApi: "brands",
+    editUrl: "brands",
     tableColumns: [
       {
         title: "Image",

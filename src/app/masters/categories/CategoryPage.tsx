@@ -26,19 +26,19 @@ import { message } from "antd";
 
 const CategoryPage = ({ editId }: any) => {
   const router = useRouter();
-  const { fetchedData: product } = useQueryFetch(
+  const { fetchedData: categories } = useQueryFetch(
     editId ? `categories/${editId}` : null
   );
 
   const formik = useFormik({
     initialValues: {
       // Basic fields
-      name: product?.name || "",
+      name: categories?.name || "",
 
       // logo:
       // - For new: null (file will be selected)
       // - For edit: you can show existing URL; if user selects a new file, it replaces it
-      logo: product?.logoUrl || null,
+      logo: categories?.logoUrl || null,
     },
     // validationSchema, // commented out
     enableReinitialize: true,

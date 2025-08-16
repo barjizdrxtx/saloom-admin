@@ -1,15 +1,14 @@
 "use client";
 
 import React from "react";
-import CategoryPage from "../../CategoryPage";
+import BrandPage from "../../BrandPage";
 
 const page = ({ params }: any) => {
-  
   const { id } = params;
 
   return (
     <div>
-      <CategoryPage editId={id} />
+      <BrandPage editId={id} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-// app/masters/category/[editId]/page.tsx
+// app/masters/brands/[editId]/page.tsx
 "use client";
 
 import React, { useEffect } from "react";
@@ -17,29 +17,29 @@ const BrandPage = ({ editId }: any) => {
 
   const storeId = searchParams.get("storeid");
 
-  // Fetch existing category if editing, and list of categories for parent dropdown
-  const { fetchedData: category, isLoading: catLoading } = useQueryFetch2(
-    editId ? `categories/${editId}` : null
+  // Fetch existing brands if editing, and list of brands for parent dropdown
+  const { fetchedData: brands, isLoading: catLoading } = useQueryFetch2(
+    editId ? `brands/${editId}` : null
   );
 
-  console.log("Category data:", category);
+  console.log("brands data:", brands);
 
   const formik = useFormik({
     initialValues: {
-      name: category?.name || "",
-      slug: category?.slug || "",
-      description: category?.description || "",
-      imageUrl: category?.imageUrl || "",
-      metaTitle: category?.metaTitle || "",
-      metaDescription: category?.metaDescription || "",
-      sortOrder: category?.sortOrder ?? 0,
-      isActive: category?.isActive ?? true,
+      name: brands?.name || "",
+      slug: brands?.slug || "",
+      description: brands?.description || "",
+      imageUrl: brands?.imageUrl || "",
+      metaTitle: brands?.metaTitle || "",
+      metaDescription: brands?.metaDescription || "",
+      sortOrder: brands?.sortOrder ?? 0,
+      isActive: brands?.isActive ?? true,
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const token = Cookies.get("storeOwnerToken") || "";
-        const url = editId ? `categories/${editId}` : "categories";
+        const url = editId ? `brands/${editId}` : "brands";
         const method = editId ? "patch" : "post";
         await axios({
           method,
@@ -47,7 +47,7 @@ const BrandPage = ({ editId }: any) => {
           data: values,
           headers: { Authorization: `Bearer ${token}` },
         });
-        message.success("Category saved");
+        message.success("brands saved");
         router.back();
       } catch (err: any) {
         console.error(err);
@@ -75,11 +75,11 @@ const BrandPage = ({ editId }: any) => {
   return (
     <div className="">
       <FormikForm
-        title={editId ? "Edit Category" : "New Category"}
+        title={editId ? "Edit brands" : "New brands"}
         formik={formik}
         formData={formData}
         editId={editId}
-        path="/masters/categories"
+        path="/masters/brands"
       />
     </div>
   );
