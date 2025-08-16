@@ -1,4 +1,4 @@
-// pages/masters/product/[editId]?.jsx
+// pages/masters/gallery/[editId]?.jsx
 "use client";
 
 import React from "react";
@@ -20,27 +20,27 @@ import { message } from "antd";
 //   categoryId: Yup.string().required("Category ID is required"),
 //   brandId: Yup.string().required("Brand ID is required"),
 //   isEnabled: Yup.boolean(),
-//   isHomepageProduct: Yup.boolean(),
+//   isHomepagegallery: Yup.boolean(),
 //   image: Yup.mixed(),
 // });
 
 const GalleryPage = ({ editId }: any) => {
   const router = useRouter();
-  const { fetchedData: product } = useQueryFetch(
+  const { fetchedData: gallery } = useQueryFetch(
     editId ? `gallery/${editId}` : null
   );
 
   const formik = useFormik({
     initialValues: {
       // Basic fields
-      title: product?.title || "",
-      description: product?.description || "",
-      isEnabled: product?.isEnabled ?? true,
+      title: gallery?.title || "",
+      description: gallery?.description || "",
+      isEnabled: gallery?.isEnabled ?? true,
 
       // Image:
       // - For new: null (file will be selected)
       // - For edit: you can show existing URL; if user selects a new file, it replaces it
-      image: product?.imageUrl || null,
+      image: gallery?.imageUrl || null,
     },
     // validationSchema, // commented out
     enableReinitialize: true,
@@ -54,7 +54,6 @@ const GalleryPage = ({ editId }: any) => {
         const entries = {
           title: values.title,
           description: values.description,
-          isEnabled: values.isEnabled ? "true" : "false",
         };
 
         Object.entries(entries).forEach(([k, v]) => {
@@ -91,11 +90,10 @@ const GalleryPage = ({ editId }: any) => {
     { title: "Image", name: "image", type: "image", imageSize: "500×500" },
     { title: "title", name: "title", type: "text" },
     { title: "Description", name: "description", type: "text" },
-    { title: "Enabled", name: "isEnabled", type: "checkbox" },
   ];
 
   return (
-    <div classtitle="w-full">
+    <div className="w-full">
       <FormikForm
         title={editId ? "Edit Gallery" : "New Gallery"}
         formData={formData}

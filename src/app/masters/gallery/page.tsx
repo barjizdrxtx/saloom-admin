@@ -1,4 +1,4 @@
-// pages/categories.jsx
+// pages/gallery.jsx
 "use client";
 
 import TableUI from "@/components/UI/TableUI/TableUI";
@@ -12,15 +12,17 @@ const page = () => {
     createButton: "/masters/gallery/create", // route for the blank “Create” form
     createButtonText: "Add Gallery",
     detailsRoute: `/masters/gallery/sub`,
-    deleteApi: "categories",
-    editUrl: "categories",
+    deleteApi: "gallery",
+    editUrl: "gallery",
     tableColumns: [
       {
         title: "Image",
         render: (row: any) =>
           row.imageUrl ? (
             <img
-              src={row.imageUrl}
+              src={
+                "https://saloom-api.amalgamatetechnologies.com" + row.imageUrl
+              }
               alt={row.name}
               className="h-8 w-8 object-cover rounded"
             />

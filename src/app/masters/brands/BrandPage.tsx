@@ -1,83 +1,99 @@
-// app/masters/brands/[editId]/page.tsx
+// pages/masters/product/[editId]?.jsx
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useQueryFetch } from "../../../hooks/useQueryFetch";
+import FormikForm from "../../../components/UI/Formik/FormikForm";
 import { message } from "antd";
-import { useQueryFetch, useQueryFetch2 } from "@/hooks/useQueryFetch";
-import FormikForm from "@/components/UI/Formik/FormikForm";
+
+// ✅ Validation intentionally kept commented out per your request
+// import * as Yup from "yup";
+// const validationSchema = Yup.object().shape({
+//   name: Yup.string().required("Name is required"),
+//   features: Yup.string(),
+//   description: Yup.string(),
+//   price: Yup.number().required("Price is required"),
+//   categoryId: Yup.string().required("Category ID is required"),
+//   brandId: Yup.string().required("Brand ID is required"),
+//   isEnabled: Yup.boolean(),
+//   isHomepageProduct: Yup.boolean(),
+//   logo: Yup.mixed(),
+// });
 
 const BrandPage = ({ editId }: any) => {
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-
-  const storeId = searchParams.get("storeid");
-
-  // Fetch existing brands if editing, and list of brands for parent dropdown
-  const { fetchedData: brands, isLoading: catLoading } = useQueryFetch2(
+  const { fetchedData: brands } = useQueryFetch(
     editId ? `brands/${editId}` : null
   );
 
-  console.log("brands data:", brands);
-
   const formik = useFormik({
     initialValues: {
+      // Basic fields
       name: brands?.name || "",
-      slug: brands?.slug || "",
-      description: brands?.description || "",
-      imageUrl: brands?.imageUrl || "",
-      metaTitle: brands?.metaTitle || "",
-      metaDescription: brands?.metaDescription || "",
-      sortOrder: brands?.sortOrder ?? 0,
-      isActive: brands?.isActive ?? true,
+
+      // logo:
+      // - For new: null (file will be selected)
+      // - For edit: you can show existing URL; if user selects a new file, it replaces it
+      logo: brands?.logoUrl || null,
     },
+    // validationSchema, // commented out
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        const token = Cookies.get("storeOwnerToken") || "";
+        const token = Cookies.get("saloom_access_token") || "";
+
+        // Build FormData; only append logo if it's a File (i.e., user picked a new one)
+        const fd = new FormData();
+
+        const entries = {
+          name: values.name,
+        };
+
+        Object.entries(entries).forEach(([k, v]) => {
+          if (v !== undefined && v !== null) fd.append(k, v);
+        });
+
+        if (values.logo instanceof File) {
+          fd.append("logo", values.logo);
+        }
+        // If editing and no new file selected, omit "logo" so backend keeps existing one.
+
         const url = editId ? `brands/${editId}` : "brands";
-        const method = editId ? "patch" : "post";
-        await axios({
+        const method = editId ? "PATCH" : "POST";
+
+        const res = await axios({
           method,
           url,
-          data: values,
-          headers: { Authorization: `Bearer ${token}` },
+          data: fd,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         });
-        message.success("brands saved");
-        router.back();
+
+        message.success(res?.data?.message || "Saved");
+        router.push("/masters/brands");
       } catch (err: any) {
-        console.error(err);
-        message.error(err.response?.data?.message || "Save failed");
+        message.error(err?.response?.data?.message || "Something went wrong");
       }
     },
   });
 
   const formData = [
-    {
-      title: "Cover Image",
-      name: "imageUrl",
-      type: "image",
-      imageSize: "width: 500px, height: 500px",
-    },
+    { title: "Logo", name: "logo", type: "image", logoSize: "500×500" },
     { title: "Name", name: "name", type: "text" },
-    { title: "Slug", name: "slug", type: "text" },
-    { title: "Description", name: "description", type: "textArea" },
-    { title: "Meta Title", name: "metaTitle", type: "text" },
-    { title: "Meta Description", name: "metaDescription", type: "textArea" },
-    { title: "Sort Order", name: "sortOrder", type: "number" },
-    { title: "Active", name: "isActive", type: "checkbox" },
   ];
 
   return (
-    <div className="">
+    <div className="w-full">
       <FormikForm
         title={editId ? "Edit brands" : "New brands"}
-        formik={formik}
         formData={formData}
+        formik={formik}
         editId={editId}
         path="/masters/brands"
       />

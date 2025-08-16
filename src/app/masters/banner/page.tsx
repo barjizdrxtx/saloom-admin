@@ -7,7 +7,7 @@ import TableUI from "@/components/UI/TableUI/TableUI";
 const page = () => {
   const props = {
     tableName: "List All Banners",
-    apiName: "banners",
+    apiName: "gallery",
     getById: "id",
     createButton: "/masters/banner/create", // route for the blank “Create” form
     createButtonText: "Add Banner",
