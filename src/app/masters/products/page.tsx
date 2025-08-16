@@ -39,6 +39,7 @@ const ProductsPage = () => {
       //   render: (row) => (row.isActive ? "Yes" : "No"),
       // },
     ],
+    actionButton: ["EDIT", "DELETE"], // actions to be displayed in the table
   };
 
   return (

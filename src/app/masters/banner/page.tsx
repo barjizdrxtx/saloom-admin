@@ -16,7 +16,7 @@ const page = () => {
     tableColumns: [
       {
         title: "Image",
-        render: (row:any) =>
+        render: (row: any) =>
           row.imageUrl ? (
             <img
               src={row.imageUrl}
@@ -32,9 +32,10 @@ const page = () => {
       { title: "Sort Order", value: "sortOrder", isNumber: true },
       {
         title: "Active",
-        render: (row:any) => (row.isActive ? "Yes" : "No"),
+        render: (row: any) => (row.isActive ? "Yes" : "No"),
       },
     ],
+    actionButton: ["EDIT", "DELETE"], // actions to be displayed in the table
   };
 
   return (

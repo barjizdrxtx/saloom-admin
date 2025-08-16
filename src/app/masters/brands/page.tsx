@@ -38,6 +38,7 @@ const page = () => {
         render: (row: any) => (row.isActive ? "Yes" : "No"),
       },
     ],
+    actionButton: ["EDIT", "DELETE"], // actions to be displayed in the table
   };
 
   return (

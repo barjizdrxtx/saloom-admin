@@ -30,6 +30,11 @@ const ProductForm = ({ editId }: any) => {
     editId ? `products/${editId}` : null
   );
 
+  const { fetchedData: categories } = useQueryFetch(`categories`);
+
+
+  const { fetchedData: brands } = useQueryFetch(`brands`);
+
   const formik = useFormik({
     initialValues: {
       // Basic fields
@@ -102,8 +107,20 @@ const ProductForm = ({ editId }: any) => {
     { title: "Features", name: "features", type: "text" },
     { title: "Description", name: "description", type: "text" },
     { title: "Price", name: "price", type: "number" },
-    { title: "Category ID", name: "categoryId", type: "text" },
-    { title: "Brand ID", name: "brandId", type: "text" },
+    {
+      title: "Category ID",
+      name: "categoryId",
+      type: "dropDown",
+      dropData: categories,
+      id: "name",
+    },
+    {
+      title: "Brand ID",
+      name: "brandId",
+      type: "dropDown",
+      dropData: brands,
+      id: "name",
+    },
     { title: "Enabled", name: "isEnabled", type: "checkbox" },
     { title: "Homepage Product", name: "isHomepageProduct", type: "checkbox" },
   ];
