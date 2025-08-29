@@ -30,6 +30,8 @@ const BrandPage = ({ editId }: any) => {
     editId ? `brands/${editId}` : null
   );
 
+  const API_BASE = "https://saloom-api.amalgamatetechnologies.com";
+
   const formik = useFormik({
     initialValues: {
       // Basic fields
@@ -84,7 +86,13 @@ const BrandPage = ({ editId }: any) => {
   });
 
   const formData = [
-    { title: "Logo", name: "logo", type: "image", logoSize: "500×500" },
+    {
+      title: "Logo",
+      name: "logo",
+      type: "image",
+      logoSize: "500×500",
+      baseUrl: API_BASE,
+    },
     { title: "Name", name: "name", type: "text" },
   ];
 
