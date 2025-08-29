@@ -19,6 +19,9 @@ export const siderbar = [
         icon: "category",
         children: [
           { text: "List All Categories", path: "/masters/categories" },
+          { text: "Explore", path: "/masters/categories/explore" },
+          { text: "Top Category", path: "/masters/categories/top" },
+          { text: "Tools And Workshop", path: "/masters/categories/tools" },
           { text: "Create Categories", path: "/masters/categories/create" },
         ],
       },
