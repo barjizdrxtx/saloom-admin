@@ -1,4 +1,3 @@
-// pages/masters/product/[editId]?.jsx
 "use client";
 
 import React from "react";
@@ -10,19 +9,7 @@ import { useQueryFetch } from "../../../hooks/useQueryFetch";
 import FormikForm from "../../../components/UI/Formik/FormikForm";
 import { message } from "antd";
 
-// ✅ Validation intentionally kept commented out per your request
-// import * as Yup from "yup";
-// const validationSchema = Yup.object().shape({
-//   name: Yup.string().required("Name is required"),
-//   features: Yup.string(),
-//   description: Yup.string(),
-//   price: Yup.number().required("Price is required"),
-//   categoryId: Yup.string().required("Category ID is required"),
-//   brandId: Yup.string().required("Brand ID is required"),
-//   isEnabled: Yup.boolean(),
-//   isHomepageProduct: Yup.boolean(),
-//   logo: Yup.mixed(),
-// });
+const API_BASE = "https://saloom-api.amalgamatetechnologies.com";
 
 const CategoryPage = ({ editId }: any) => {
   const router = useRouter();
@@ -32,39 +19,30 @@ const CategoryPage = ({ editId }: any) => {
 
   const formik = useFormik({
     initialValues: {
-      // Basic fields
       name: categories?.name || "",
-
-      // logo:
-      // - For new: null (file will be selected)
-      // - For edit: you can show existing URL; if user selects a new file, it replaces it
       logo: categories?.logoUrl || null,
+      isEnabled: categories?.isEnabled ?? true,
+      isInExplore: categories?.isInExplore ?? true,
+      isInTopcategory: categories?.isInTopcategory ?? true,
+      isInToolsAndWorkshop: categories?.isInToolsAndWorkshop ?? true,
     },
-    // validationSchema, // commented out
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const token = Cookies.get("saloom_access_token") || "";
-
-        // Build FormData; only append logo if it's a File (i.e., user picked a new one)
         const fd = new FormData();
-
-        const entries = {
-          name: values.name,
-        };
-
-        Object.entries(entries).forEach(([k, v]) => {
-          if (v !== undefined && v !== null) fd.append(k, v);
-        });
-
-        if (values.logo instanceof File) {
-          fd.append("logo", values.logo);
-        }
-        // If editing and no new file selected, omit "logo" so backend keeps existing one.
+        fd.append("name", values.name);
+        fd.append("isEnabled", String(!!values.isEnabled));
+        fd.append("isInExplore", String(!!values.isInExplore));
+        fd.append("isInTopcategory", String(!!values.isInTopcategory));
+        fd.append(
+          "isInToolsAndWorkshop",
+          String(!!values.isInToolsAndWorkshop)
+        );
+        if (values.logo instanceof File) fd.append("logo", values.logo);
 
         const url = editId ? `categories/${editId}` : "categories";
         const method = editId ? "PATCH" : "POST";
-
         const res = await axios({
           method,
           url,
@@ -84,8 +62,26 @@ const CategoryPage = ({ editId }: any) => {
   });
 
   const formData = [
-    { title: "Logo", name: "logo", type: "image", logoSize: "500×500" },
+    {
+      title: "Logo",
+      name: "logo",
+      type: "image",
+      imageSize: "500×500",
+      baseUrl: API_BASE, // used to resolve relative logoUrl
+    },
     { title: "Name", name: "name", type: "text" },
+    { title: "Enabled", name: "isEnabled", type: "checkbox" },
+    { title: "Show in Explore", name: "isInExplore", type: "checkbox" },
+    {
+      title: "Show in Top Category",
+      name: "isInTopcategory",
+      type: "checkbox",
+    },
+    {
+      title: "Show in Tools & Workshop",
+      name: "isInToolsAndWorkshop",
+      type: "checkbox",
+    },
   ];
 
   return (

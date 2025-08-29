@@ -6,12 +6,11 @@ import TableUI from "@/components/UI/TableUI/TableUI";
 
 const page = () => {
   const props = {
-    tableName: "List All Sub Categories",
+    tableName: "List All  Categories",
     apiName: "categories",
     getById: "id",
     createButton: "/masters/categories/create", // route for the blank “Create” form
     createButtonText: "Add Category",
-    detailsRoute: `/masters/categories/sub`,
     deleteApi: "categories",
     editUrl: "categories",
     tableColumns: [

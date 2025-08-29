@@ -16,7 +16,6 @@ import FormikColorPicker from "./FormikColorPicker";
 import MapLocation from "./MapLocation";
 import { ImagePreview } from "../ImagePreview/ImagePreview";
 
-
 const FormikForm = ({
   title,
   formik,
@@ -138,6 +137,7 @@ const FormikForm = ({
                   <ImagePreview
                     data={field}
                     imageSize={field.imageSize}
+                    baseUrl={field.baseUrl}
                     image={formik.values[field.name]}
                     setImage={(val) => formik.setFieldValue(field.name, val)}
                   />

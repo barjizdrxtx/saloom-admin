@@ -25,13 +25,14 @@ import { message } from "antd";
 // });
 
 const ProductForm = ({ editId }: any) => {
+  const API_BASE = "https://saloom-api.amalgamatetechnologies.com";
+
   const router = useRouter();
   const { fetchedData: product } = useQueryFetch(
     editId ? `products/${editId}` : null
   );
 
   const { fetchedData: categories } = useQueryFetch(`categories`);
-
 
   const { fetchedData: brands } = useQueryFetch(`brands`);
 
@@ -102,7 +103,13 @@ const ProductForm = ({ editId }: any) => {
   });
 
   const formData = [
-    { title: "Image", name: "image", type: "image", imageSize: "500×500" },
+    {
+      title: "Image",
+      name: "image",
+      type: "image",
+      imageSize: "500×500",
+      baseUrl: API_BASE,
+    },
     { title: "Name", name: "name", type: "text" },
     { title: "Features", name: "features", type: "text" },
     { title: "Description", name: "description", type: "text" },
