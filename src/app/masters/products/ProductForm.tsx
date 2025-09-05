@@ -17,7 +17,6 @@ const validationSchema = Yup.object().shape({
   // name: Yup.string().required("Name is required"),
   // features: Yup.string(),
   // description: Yup.string(),
-  price: Yup.number().required("Price is required"),
   categoryId: Yup.string().required("Category ID is required"),
   // brandId: Yup.string().required("Brand ID is required"),
   // isEnabled: Yup.boolean(),
@@ -43,7 +42,6 @@ const ProductForm = ({ editId }: any) => {
       name: product?.name || "",
       features: product?.features || "",
       description: product?.description || "",
-      price: product?.price ?? "",
       categoryId: product?.categoryId ?? "",
       brandId: product?.brandId ?? "",
       isEnabled: product?.isEnabled ?? true,
@@ -66,7 +64,6 @@ const ProductForm = ({ editId }: any) => {
           name: values.name,
           features: values.features,
           description: values.description,
-          price: values.price, // let backend cast
           categoryId: values.categoryId,
           brandId: values.brandId,
           isEnabled: values.isEnabled ? "true" : "false",
