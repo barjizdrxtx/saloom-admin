@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   // description: Yup.string(),
   price: Yup.number().required("Price is required"),
   categoryId: Yup.string().required("Category ID is required"),
-  brandId: Yup.string().required("Brand ID is required"),
+  // brandId: Yup.string().required("Brand ID is required"),
   // isEnabled: Yup.boolean(),
   // isHomepageProduct: Yup.boolean(),
   // image: Yup.mixed(),
