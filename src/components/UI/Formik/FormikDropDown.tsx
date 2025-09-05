@@ -78,7 +78,7 @@ const FormikDropDown: React.FC<Props> = ({
   return (
     <div ref={wrapRef} className={`w-full flex flex-col mt-1 ${className}`}>
       {data.title && (
-        <div className="pb-1 font-normal text-xs text-gray-600">
+        <div className="pb-1  text-sm text-gray-800 font-semibold">
           {data.title}
         </div>
       )}

@@ -44,9 +44,9 @@ const FormikTextField = ({
         data.width === "w-fit" ? "w-fit" : "w-full"
       } ${className} mt-${data.mt}`}
     >
-      <label className="pb-1 text-sm font-medium text-gray-700">
+      <div className="pb-1  text-sm text-gray-800 font-semibold">
         {data.title}
-      </label>
+      </div>
       <div className="relative mt-1">
         <input
           disabled={data.disabled}

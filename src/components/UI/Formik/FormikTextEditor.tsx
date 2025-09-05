@@ -123,7 +123,9 @@ const FormikTextEditor: React.FC<FormikTextEditorProps> = ({
 
   return (
     <div className={`w-full ${className}`}>
-      <div className="pb-1 font-normal text-sm">{data.title}</div>
+      <div className="pb-1 pt-1  text-sm text-gray-800 font-semibold">
+        {data.title}
+      </div>
       <ReactQuill
         theme="snow"
         value={value || ""}
