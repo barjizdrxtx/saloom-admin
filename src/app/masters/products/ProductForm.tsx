@@ -110,7 +110,12 @@ const ProductForm = ({ editId }: any) => {
     },
     { title: "Name", name: "name", type: "text" },
     { title: "Features", name: "features", type: "text" },
-    { title: "Description", name: "description", type: "text" },
+    {
+      title: "Description",
+      name: "description",
+      type: "textEditor",
+      colSpan: 1,
+    },
     {
       title: "Category ID",
       name: "categoryId",

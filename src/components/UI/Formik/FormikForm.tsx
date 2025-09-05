@@ -28,7 +28,7 @@ const FormikForm = ({
   const router = useRouter();
 
   return (
-    <div className="xs:full md:w-5/6 px-5 flex flex-col justify-center items-start pb-10">
+    <div className="xs:full md:w-4/6 px-5 flex flex-col justify-center items-start pb-96">
       {/* Header */}
       <div className="w-full flex justify-between items-center py-5">
         <div className="text-2xl font-bold">
@@ -54,8 +54,11 @@ const FormikForm = ({
       {/* Form */}
       <form className="w-full" onSubmit={formik.handleSubmit}>
         <div
-          className={`w-${width} grid grid-cols-1 md:${gridMd} gap-x-4 gap-y-2`}
+          className={`w-${width} grid grid-cols-1
+         
+           gap-x-4 gap-y-2`}
         >
+          {/* md:${gridMd} */}
           {formData.map((field, idx) => {
             const span = field.grid === 1 ? "md:col-span-2" : "md:col-span-1";
             const value = field.name.includes(".")
