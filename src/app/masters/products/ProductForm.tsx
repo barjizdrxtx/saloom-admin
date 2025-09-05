@@ -9,20 +9,21 @@ import { useRouter } from "next/navigation";
 import { useQueryFetch } from "../../../hooks/useQueryFetch";
 import FormikForm from "../../../components/UI/Formik/FormikForm";
 import { message } from "antd";
+import * as Yup from "yup";
 
 // ✅ Validation intentionally kept commented out per your request
 // import * as Yup from "yup";
-// const validationSchema = Yup.object().shape({
-//   name: Yup.string().required("Name is required"),
-//   features: Yup.string(),
-//   description: Yup.string(),
-//   price: Yup.number().required("Price is required"),
-//   categoryId: Yup.string().required("Category ID is required"),
-//   brandId: Yup.string().required("Brand ID is required"),
-//   isEnabled: Yup.boolean(),
-//   isHomepageProduct: Yup.boolean(),
-//   image: Yup.mixed(),
-// });
+const validationSchema = Yup.object().shape({
+  // name: Yup.string().required("Name is required"),
+  // features: Yup.string(),
+  // description: Yup.string(),
+  price: Yup.number().required("Price is required"),
+  categoryId: Yup.string().required("Category ID is required"),
+  brandId: Yup.string().required("Brand ID is required"),
+  // isEnabled: Yup.boolean(),
+  // isHomepageProduct: Yup.boolean(),
+  // image: Yup.mixed(),
+});
 
 const ProductForm = ({ editId }: any) => {
   const API_BASE = "https://saloom-api.amalgamatetechnologies.com";
@@ -52,7 +53,7 @@ const ProductForm = ({ editId }: any) => {
       // - For edit: you can show existing URL; if user selects a new file, it replaces it
       image: product?.imageUrl || null,
     },
-    // validationSchema, // commented out
+    validationSchema, // commented out
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
