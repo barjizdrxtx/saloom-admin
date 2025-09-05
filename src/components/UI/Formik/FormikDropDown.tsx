@@ -1,72 +1,162 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CustomIcon } from "../Icons/Icons";
 
-const FormikDropDown = ({ data, onChange, error, value }: any) => {
+type DropDataItem = { id: string | number; [k: string]: any };
+
+type Props = {
+  data: {
+    title: string;
+    dropData: DropDataItem[];
+    dropTitle: string; // key to show as label, e.g. "name"
+  };
+  value?: string | number;
+  onChange: (id: string | number) => void;
+  error?: string;
+  placeholder?: string;
+  searchable?: boolean;
+  className?: string;
+};
+
+const FormikDropDown: React.FC<Props> = ({
+  data,
+  value,
+  onChange,
+  error,
+  placeholder,
+  searchable = true,
+  className = "",
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [list, setList] = useState<string | undefined>(undefined);
-  const [defaultValue, setDefaultValue] = useState<any>(undefined);
+  const [query, setQuery] = useState("");
+  const wrapRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const labelKey = data.dropTitle;
 
-  const handleSelectOption = (selectedValue: any) => {
+  const selectedOption = useMemo(
+    () => data.dropData?.find((el) => el.id === value),
+    [data.dropData, value]
+  );
+
+  const displayLabel =
+    selectedOption?.[labelKey] ??
+    (placeholder || `Select a ${data.title || "option"}`);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return data.dropData || [];
+    return (data.dropData || []).filter((el) =>
+      String(el[labelKey] ?? "")
+        .toLowerCase()
+        .includes(q)
+    );
+  }, [data.dropData, labelKey, query]);
+
+  const toggle = () => setIsOpen((s) => !s);
+
+  const handleSelect = (opt: DropDataItem) => {
     setIsOpen(false);
-    onChange(selectedValue.id);
-    setList(selectedValue[data.dropTitle]);
-    setDefaultValue(selectedValue);
+    onChange(opt.id);
+    setQuery(""); // reset search after pick
   };
 
-  // Set the default value if the id matches 33
+  // Close on outside click
   useEffect(() => {
-    const defaultOption = data.dropData?.find((el: any) => el.id === value);
-    if (defaultOption) {
-      setDefaultValue(defaultOption);
-      setList(defaultOption[data.dropTitle]);
-    }
-  }, [data.dropData, value]);
+    const onDocClick = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  // If value changes from outside, ensure dropdown closes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [value]);
 
   return (
-    <div className={`w-full flex flex-col justify-center items-start mt-1`}>
-      <div className="pb-1 font-normal text-sm">{data.title}</div>
-      <div className="w-full">
-        <button
-          onClick={toggleDropdown}
-          type="button"
-          className={`flex justify-between items-center w-full 
-          p-1.5 text-sm font-medium border rounded-md`}
-          aria-haspopup="true"
-          aria-expanded="true"
+    <div ref={wrapRef} className={`w-full flex flex-col mt-1 ${className}`}>
+      {data.title && (
+        <div className="pb-1 font-normal text-xs text-gray-600">
+          {data.title}
+        </div>
+      )}
+
+      {/* Reduced-height trigger */}
+      <button
+        type="button"
+        onClick={toggle}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        className={`flex justify-between items-center w-full py-2.5 px-2 text-sm border rounded-md 
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+      >
+        <span
+          className={`truncate ${
+            selectedOption ? "text-gray-900" : "text-gray-400"
+          }`}
         >
-          {value ? list : `Select a ${data.title}`}
-          <div>
-            <CustomIcon name="arrow_drop_down" />
-          </div>
-        </button>
-      </div>
-      <div className="w-full relative mt-1 bg-blue-50">
+          {displayLabel}
+        </span>
+        <span className={`transition-transform ${isOpen ? "rotate-180" : ""}`}>
+          <CustomIcon name="arrow_drop_down" />
+        </span>
+      </button>
+
+      <div className="relative w-full mt-1">
         {isOpen && (
-          <div className="w-full bg-white absolute z-50 left-0 top-0      border rounded-md">
-            {data.dropData?.map((el: any, index: any) => (
-              <div
-                key={el.id}
-                className="flex justify-between items-center text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <div
-                  className="capitalize w-full py-2 pl-4 cursor-pointer"
-                  onClick={() => {
-                    handleSelectOption(el);
-                  }}
-                >
-                  {el[data.dropTitle]}
-                </div>
+          <div
+            role="listbox"
+            className="absolute z-50 left-0 right-0 bg-white border rounded-md shadow-sm"
+          >
+            {/* Search bar (reduced padding) */}
+            {searchable && (
+              <div className="sticky top-0 bg-white border-b px-2 py-1.5">
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder={`Search`}
+                  className="w-full h-8 px-2 text-sm border rounded outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
-            ))}
+            )}
+
+            {/* Options (smaller rows, capped height, scrollable) */}
+            <div className="max-h-48 overflow-y-auto">
+              {filtered.length === 0 && (
+                <div className="px-3 py-2 text-sm text-gray-500">
+                  No matches
+                </div>
+              )}
+
+              {filtered.map((el) => {
+                const isActive = el.id === value;
+                return (
+                  <div
+                    key={el.id}
+                    onClick={() => handleSelect(el)}
+                    className={`flex items-center justify-between text-sm cursor-pointer
+                                px-3 py-1.5 hover:bg-gray-100 ${
+                                  isActive ? "bg-gray-50" : ""
+                                }`}
+                  >
+                    <span className="capitalize truncate">{el[labelKey]}</span>
+                    {isActive && (
+                      <span className="shrink-0">
+                        <CustomIcon name="check" />
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
 
-      {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+      {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
     </div>
   );
 };
