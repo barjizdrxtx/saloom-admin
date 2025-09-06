@@ -1,3 +1,4 @@
+// CategorySection.tsx
 "use client";
 
 import React from "react";
@@ -32,6 +33,10 @@ export type Product = {
 };
 
 const MEDIA_BASE = "https://saloom-api.amalgamatetechnologies.com";
+
+// resolve absolute media URL
+const abs = (u?: string | null) =>
+  u ? (u.startsWith("http") ? u : `${MEDIA_BASE}${u}`) : "";
 
 /* tiny UI bits */
 const Badge: React.FC<{
@@ -74,10 +79,8 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
   const id = p?.id;
   const name = (p?.name || "").trim() || "— Untitled —";
   const brandName = p?.brand?.name || "—";
-  const brandLogo = p?.brand?.logoUrl
-    ? `${MEDIA_BASE}${p.brand.logoUrl}`
-    : null;
-  const img = p?.imageUrl ? `${MEDIA_BASE}${p.imageUrl}` : null;
+  const brandLogo = p?.brand?.logoUrl ? abs(p.brand.logoUrl) : null;
+  const img = p?.imageUrl ? abs(p.imageUrl) : null;
   const updated = p?.updatedAt
     ? new Date(p.updatedAt).toLocaleString("en-IN", {
         year: "numeric",
@@ -133,6 +136,8 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
           ) : null}
           <span className="text-sm text-gray-700">{brandName}</span>
         </div>
+        {/* optional description removed on purpose per your last iterations */}
+        <div className="mt-1 text-[11px] text-gray-500">Updated: {updated}</div>
       </div>
 
       {/* right actions for product */}
@@ -151,7 +156,7 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
   );
 };
 
-/* Category header with custom Edit/Delete buttons */
+/* Category header with logo + custom Edit/Delete buttons */
 const CategoryHeader: React.FC<{
   cat: Category;
   count: number;
@@ -167,7 +172,6 @@ const CategoryHeader: React.FC<{
   };
 
   const handleEdit = () => {
-    // adjust this route to your app if different
     router.push(`/masters/categories/edit/${cat?.id}`);
   };
 
@@ -203,10 +207,54 @@ const CategoryHeader: React.FC<{
   const name = cat?.name || "Uncategorized";
   const catDisabled = !cat?.isEnabled;
 
+  const catLogo = cat?.logoUrl ? abs(cat.logoUrl) : "";
+
   return (
     <div className="mb-3 px-2 sm:px-4">
       <div className="flex items-center justify-between">
+        {/* Left: logo + name + counts */}
         <div className="flex items-center gap-3">
+          {/* Category image (with fallback square) */}
+          <div
+            className={`h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-md ring-1 ring-gray-200 bg-gray-100 grid place-items-center ${
+              catDisabled ? "grayscale" : ""
+            }`}
+            title={name}
+          >
+            {catLogo ? (
+              <img
+                src={catLogo}
+                alt={name}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="text-gray-400"
+              >
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="14"
+                  rx="2"
+                  stroke="currentColor"
+                />
+                <path
+                  d="M7 15l3-3 3 3 4-4 3 3"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="9" cy="9" r="1.5" fill="currentColor" />
+              </svg>
+            )}
+          </div>
+
           <h3
             className={`text-xl font-semibold ${
               catDisabled ? "text-gray-700" : "text-gray-900"
@@ -214,6 +262,7 @@ const CategoryHeader: React.FC<{
           >
             {name}
           </h3>
+
           <Badge tone="gray" subtle>
             {count}
           </Badge>
@@ -225,7 +274,7 @@ const CategoryHeader: React.FC<{
           {catDisabled ? <Badge tone="red">Category Disabled</Badge> : null}
         </div>
 
-        {/* Custom buttons */}
+        {/* Right: custom buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={handleEdit}
@@ -255,6 +304,7 @@ const CategoryHeader: React.FC<{
         </div>
       </div>
 
+      {/* Flags */}
       <div className="mt-2 flex flex-wrap items-center gap-2">
         {flags.map((f) => (
           <span
@@ -272,7 +322,6 @@ const CategoryHeader: React.FC<{
 };
 
 /* Category section (list-only; shows both active+inactive products) */
-/* Category section (list-only; shows both active+inactive products) */
 const CategorySection: React.FC<{
   cat: Category;
   items: Product[];
@@ -281,7 +330,7 @@ const CategorySection: React.FC<{
 }> = ({ cat, items, onAfterAction, onAddProduct }) => {
   const disabledCount = items.filter((p) => !p?.isEnabled).length;
 
-  // Split enabled vs disabled, then concat so disabled come last
+  // Enabled first, then disabled at the bottom
   const enabledItems = items.filter((p) => p?.isEnabled);
   const disabledItems = items.filter((p) => !p?.isEnabled);
   const orderedItems = [...enabledItems, ...disabledItems];
