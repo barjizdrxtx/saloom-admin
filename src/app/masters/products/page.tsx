@@ -1,3 +1,4 @@
+// pages/products.tsx
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -40,7 +41,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return { Authorization: token ? `Bearer ${token}` : "" };
   };
 
-  // Fetch ALL categories (including inactive)
+  // Fetch ALL categories (include inactive)
   const fetchAllCategories = async (): Promise<Category[]> => {
     const pageSize = 100;
     let page = 1;
@@ -59,7 +60,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return all;
   };
 
-  // Fetch ALL products (including inactive)
+  // Fetch ALL products (include inactive)
   const fetchAllProducts = async (): Promise<Product[]> => {
     const pageSize = 1000;
     const { data } = await axios.get("products?inactive=true", {
@@ -101,7 +102,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(p);
     }
-    // Sort each bucket by last updated desc
     for (const [, arr] of map) {
       arr.sort((a, b) => {
         const A = new Date(a?.updatedAt || a?.createdAt || 0).getTime();
@@ -112,7 +112,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return map;
   }, [products]);
 
-  // Build {cat, items[]} with search applied
+  // Build list of {cat, items} for all categories (search-aware)
   const allCategoryBundles = useMemo(() => {
     const q = query.trim().toLowerCase();
 
@@ -134,23 +134,40 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return bundles.filter(({ cat, items }) => byName(cat) || items.length > 0);
   }, [categories, productsByCatId, query]);
 
-  const enabledBundles = useMemo(
+  // Helper: sort by (non-empty first), then by name
+  const orderWithEmptyLast = (
+    bundles: { cat: Category; items: Product[] }[]
+  ) => {
+    const withItems: typeof bundles = [];
+    const withoutItems: typeof bundles = [];
+    for (const b of bundles) {
+      (b.items.length > 0 ? withItems : withoutItems).push(b);
+    }
+    const byName = (a: (typeof bundles)[number], b: (typeof bundles)[number]) =>
+      (a.cat?.name || "").localeCompare(b.cat?.name || "");
+    withItems.sort(byName);
+    withoutItems.sort(byName);
+    return [...withItems, ...withoutItems];
+  };
+
+  // Enabled / Disabled with "no products last"
+  const enabledBundlesOrdered = useMemo(
     () =>
-      allCategoryBundles
-        .filter(({ cat }) => !!cat?.isEnabled)
-        .sort((a, b) => (a.cat?.name || "").localeCompare(b.cat?.name || "")),
+      orderWithEmptyLast(
+        allCategoryBundles.filter(({ cat }) => !!cat?.isEnabled)
+      ),
     [allCategoryBundles]
   );
 
-  const disabledBundles = useMemo(
+  const disabledBundlesOrdered = useMemo(
     () =>
-      allCategoryBundles
-        .filter(({ cat }) => !cat?.isEnabled)
-        .sort((a, b) => (a.cat?.name || "").localeCompare(b.cat?.name || "")),
+      orderWithEmptyLast(
+        allCategoryBundles.filter(({ cat }) => !cat?.isEnabled)
+      ),
     [allCategoryBundles]
   );
 
-  // "Uncategorized" bucket (only shown under Enabled tab to avoid confusion)
+  // Uncategorized products (only under Enabled tab)
   const uncategorizedItems = useMemo(() => {
     const items = productsByCatId.get("__uncategorized__") || [];
     if (!query.trim()) return items;
@@ -169,7 +186,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
   );
 
   const handleAddCategory = () => {
-    // route to category create page (you can swap for a modal if desired)
     router.push("/masters/categories/create");
   };
 
@@ -190,8 +206,8 @@ export default function ProductsByCategoryPage(): JSX.Element {
       <CategoryTabs
         tab={tab}
         setTab={setTab}
-        enabledCount={enabledBundles.length}
-        disabledCount={disabledBundles.length}
+        enabledCount={enabledBundlesOrdered.length}
+        disabledCount={disabledBundlesOrdered.length}
       />
 
       <div className="mx-auto max-w-screen-2xl py-4">
@@ -203,15 +219,15 @@ export default function ProductsByCategoryPage(): JSX.Element {
           <div className="px-4 py-8 text-center text-red-600">{err}</div>
         ) : (
           <>
-            {/* Enabled categories tab */}
+            {/* Enabled tab */}
             {tab === "enabled" && (
               <>
-                {enabledBundles.length === 0 ? (
+                {enabledBundlesOrdered.length === 0 ? (
                   <div className="px-4 py-12 text-center text-gray-500">
                     No enabled categories.
                   </div>
                 ) : (
-                  enabledBundles.map(({ cat, items }) => (
+                  enabledBundlesOrdered.map(({ cat, items }) => (
                     <CategorySection
                       key={cat?.id || slugify(cat?.name || "uncategorized")}
                       cat={cat}
@@ -222,7 +238,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
                   ))
                 )}
 
-                {/* Show uncategorized only on Enabled tab */}
+                {/* Uncategorized bucket under Enabled tab */}
                 {uncategorizedItems.length > 0 && (
                   <CategorySection
                     cat={{
@@ -240,15 +256,15 @@ export default function ProductsByCategoryPage(): JSX.Element {
               </>
             )}
 
-            {/* Disabled categories tab */}
+            {/* Disabled tab */}
             {tab === "disabled" && (
               <>
-                {disabledBundles.length === 0 ? (
+                {disabledBundlesOrdered.length === 0 ? (
                   <div className="px-4 py-12 text-center text-gray-500">
                     No disabled categories.
                   </div>
                 ) : (
-                  disabledBundles.map(({ cat, items }) => (
+                  disabledBundlesOrdered.map(({ cat, items }) => (
                     <CategorySection
                       key={cat?.id || slugify(cat?.name || "uncategorized")}
                       cat={cat}
