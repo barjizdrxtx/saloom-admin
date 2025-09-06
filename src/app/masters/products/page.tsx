@@ -1,4 +1,3 @@
-// pages/products.tsx
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -41,6 +40,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return { Authorization: token ? `Bearer ${token}` : "" };
   };
 
+  // Fetch ALL categories (including inactive)
   const fetchAllCategories = async (): Promise<Category[]> => {
     const pageSize = 100;
     let page = 1;
@@ -59,9 +59,10 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return all;
   };
 
+  // Fetch ALL products (including inactive)
   const fetchAllProducts = async (): Promise<Product[]> => {
     const pageSize = 1000;
-    const { data } = await axios.get("products", {
+    const { data } = await axios.get("products?inactive=true", {
       params: { page: 1, limit: pageSize },
       headers: tokenHeader(),
     });
@@ -92,6 +93,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Map products into categoryId buckets
   const productsByCatId = useMemo(() => {
     const map = new Map<string, Product[]>();
     for (const p of products) {
@@ -99,6 +101,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(p);
     }
+    // Sort each bucket by last updated desc
     for (const [, arr] of map) {
       arr.sort((a, b) => {
         const A = new Date(a?.updatedAt || a?.createdAt || 0).getTime();
@@ -109,6 +112,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     return map;
   }, [products]);
 
+  // Build {cat, items[]} with search applied
   const allCategoryBundles = useMemo(() => {
     const q = query.trim().toLowerCase();
 
@@ -146,6 +150,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
     [allCategoryBundles]
   );
 
+  // "Uncategorized" bucket (only shown under Enabled tab to avoid confusion)
   const uncategorizedItems = useMemo(() => {
     const items = productsByCatId.get("__uncategorized__") || [];
     if (!query.trim()) return items;
@@ -164,7 +169,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
   );
 
   const handleAddCategory = () => {
-    // adjust route as needed
+    // route to category create page (you can swap for a modal if desired)
     router.push("/masters/categories/create");
   };
 
@@ -198,6 +203,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
           <div className="px-4 py-8 text-center text-red-600">{err}</div>
         ) : (
           <>
+            {/* Enabled categories tab */}
             {tab === "enabled" && (
               <>
                 {enabledBundles.length === 0 ? (
@@ -216,6 +222,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
                   ))
                 )}
 
+                {/* Show uncategorized only on Enabled tab */}
                 {uncategorizedItems.length > 0 && (
                   <CategorySection
                     cat={{
@@ -233,6 +240,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
               </>
             )}
 
+            {/* Disabled categories tab */}
             {tab === "disabled" && (
               <>
                 {disabledBundles.length === 0 ? (
@@ -245,7 +253,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
                       key={cat?.id || slugify(cat?.name || "uncategorized")}
                       cat={cat}
                       items={items}
-      
                       onAfterAction={refresh}
                       onAddProduct={handleAddProduct}
                     />
