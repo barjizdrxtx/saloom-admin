@@ -272,6 +272,7 @@ const CategoryHeader: React.FC<{
 };
 
 /* Category section (list-only; shows both active+inactive products) */
+/* Category section (list-only; shows both active+inactive products) */
 const CategorySection: React.FC<{
   cat: Category;
   items: Product[];
@@ -279,6 +280,11 @@ const CategorySection: React.FC<{
   onAddProduct: (cat: Category) => void;
 }> = ({ cat, items, onAfterAction, onAddProduct }) => {
   const disabledCount = items.filter((p) => !p?.isEnabled).length;
+
+  // Split enabled vs disabled, then concat so disabled come last
+  const enabledItems = items.filter((p) => p?.isEnabled);
+  const disabledItems = items.filter((p) => !p?.isEnabled);
+  const orderedItems = [...enabledItems, ...disabledItems];
 
   return (
     <section className="mb-10">
@@ -298,7 +304,7 @@ const CategorySection: React.FC<{
         </div>
       ) : (
         <div className="space-y-3 px-2 sm:px-4">
-          {items.map((p) => (
+          {orderedItems.map((p) => (
             <ProductRow key={p.id} p={p} onAfterAction={onAfterAction} />
           ))}
         </div>
