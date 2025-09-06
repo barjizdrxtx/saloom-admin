@@ -123,21 +123,21 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
         )}
       </div>
 
-      {/* middle */}
       <div className="flex-1 py-3 pr-2">
-        <div className="mt-1 flex items-end gap-2">
-          {brandLogo ? (
+        {brandLogo ? (
+          <div className="mt-1 flex items-end gap-2">
             <img
               src={brandLogo}
               alt={brandName}
               className="h-5 w-5 rounded object-cover ring-1 ring-gray-200"
               loading="lazy"
             />
-          ) : null}
-          <span className="text-sm text-gray-700">{brandName}</span>
-        </div>
-        {/* optional description removed on purpose per your last iterations */}
-  
+
+            <span className="text-sm text-gray-700">{brandName}</span>
+          </div>
+        ) : (
+          <span className="text-sm text-gray-700">NO Brand</span>
+        )}
       </div>
 
       {/* right actions for product */}
