@@ -96,16 +96,14 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
       }`}
     >
       {/* thumb (grayscale when disabled) */}
-      <div
-        className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 sm:h-20 sm:w-20 ${
-          disabled ? "grayscale" : ""
-        }`}
-      >
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-200 sm:h-20 sm:w-20">
         {img ? (
           <img
             src={img}
             alt={name}
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover ${
+              disabled ? "grayscale" : ""
+            }`}
             loading="lazy"
           />
         ) : (
@@ -113,20 +111,17 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
             No image
           </div>
         )}
+
+        {/* Disabled badge overlay */}
+        {disabled && (
+          <span className="absolute top-1 left-1 rounded-md bg-red-600/80 px-1.5 py-0.5 text-[10px] font-medium text-white shadow">
+            Disabled
+          </span>
+        )}
       </div>
 
       {/* middle */}
       <div className="flex-1 py-3 pr-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <h4 className="truncate font-medium text-gray-900">{name}</h4>
-          {p?.isHomepageProduct ? <Badge tone="amber">Homepage</Badge> : null}
-          {disabled ? (
-            <Badge tone="red">Disabled</Badge>
-          ) : (
-            <Badge tone="green">Enabled</Badge>
-          )}
-        </div>
-
         <div className="mt-1 flex items-center gap-2">
           {brandLogo ? (
             <img
