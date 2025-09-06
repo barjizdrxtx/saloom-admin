@@ -7,7 +7,7 @@ export const siderbar = [
     path: "/masters",
     children: [
       {
-        name: "All Categories & Products",
+        name: "All Products",
         icon: "inventory_2",
         children: [
           { text: "List All Products", path: "/masters/products" },
