@@ -122,7 +122,7 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
 
       {/* middle */}
       <div className="flex-1 py-3 pr-2">
-        <div className="mt-1 flex items-center gap-2">
+        <div className="mt-1 flex items-end gap-2">
           {brandLogo ? (
             <img
               src={brandLogo}
@@ -133,14 +133,6 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
           ) : null}
           <span className="text-sm text-gray-700">{brandName}</span>
         </div>
-
-        {p?.description?.trim() ? (
-          <p className="mt-1 line-clamp-1 text-xs text-gray-500">
-            {p.description}
-          </p>
-        ) : null}
-
-        <div className="mt-1 text-[11px] text-gray-500">Updated: {updated}</div>
       </div>
 
       {/* right actions for product */}
