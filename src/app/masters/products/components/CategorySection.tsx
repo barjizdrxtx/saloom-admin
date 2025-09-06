@@ -137,7 +137,7 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
           <span className="text-sm text-gray-700">{brandName}</span>
         </div>
         {/* optional description removed on purpose per your last iterations */}
-        <div className="mt-1 text-[11px] text-gray-500">Updated: {updated}</div>
+  
       </div>
 
       {/* right actions for product */}
