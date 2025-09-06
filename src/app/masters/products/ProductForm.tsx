@@ -67,7 +67,7 @@ const ProductForm = ({ editId }: any) => {
           categoryId: values.categoryId,
           brandId: values.brandId,
           isEnabled: values.isEnabled ? "true" : "false",
-          isHomepageProduct: values.isHomepageProduct ? "true" : "false",
+          isHomepageProduct: true,
         };
 
         Object.entries(entries).forEach(([k, v]) => {
@@ -131,7 +131,6 @@ const ProductForm = ({ editId }: any) => {
       dropTitle: "name",
     },
     { title: "is Enabled", name: "isEnabled", type: "checkbox" },
-    { title: "Homepage Product", name: "isHomepageProduct", type: "checkbox" },
   ];
 
   return (
