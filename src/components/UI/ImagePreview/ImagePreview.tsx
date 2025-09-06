@@ -53,7 +53,7 @@ export const ImagePreview = ({ data, image, setImage, imageSize, baseUrl }) => {
   };
 
   return (
-    <div className="w-full max-w-xs relative p-4 bg-white border border-gray-100 rounded-2xl shadow-lg">
+    <div className=" w-fit relative p-4 bg-white border border-gray-300 rounded-2xl">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-md font-semibold text-gray-800">{data.title}</h3>
       </div>
@@ -96,9 +96,8 @@ export const ImagePreview = ({ data, image, setImage, imageSize, baseUrl }) => {
         />
       </label>
 
-      <div className="mt-3 text-center text-gray-400 text-xs space-y-1">
-        <p>Recommended size: {imageSize || "500×500"}</p>
-        <p>Formats: JPG, PNG, WEBP</p>
+      <div className="mt-3 text-start text-gray-600 text-xs space-y-1">
+        <p>Use Square Image for Best Fit</p>
       </div>
     </div>
   );

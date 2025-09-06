@@ -91,7 +91,7 @@ const CategoryPage = ({ editId }: any) => {
         formData={formData}
         formik={formik}
         editId={editId}
-        path="/masters/categories"
+        path="/masters/products"
       />
     </div>
   );

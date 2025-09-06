@@ -117,14 +117,14 @@ const ProductForm = ({ editId }: any) => {
       colSpan: 1,
     },
     {
-      title: "Category ID",
+      title: "Category Name",
       name: "categoryId",
       type: "dropDown",
       dropData: categories,
       dropTitle: "name",
     },
     {
-      title: "Brand ID",
+      title: "Brand Name",
       name: "brandId",
       type: "dropDown",
       dropData: brands,

@@ -7,22 +7,11 @@ export const siderbar = [
     path: "/masters",
     children: [
       {
-        name: "All Products",
+        name: "All Categoris & Products",
         icon: "inventory_2",
         children: [
           { text: "List All Products", path: "/masters/products" },
           { text: "Create Products", path: "/masters/products/create" },
-        ],
-      },
-      {
-        name: "All Categories",
-        icon: "category",
-        children: [
-          { text: "List All Categories", path: "/masters/categories" },
-          { text: "Explore", path: "/masters/categories/explore" },
-          { text: "Top Category", path: "/masters/categories/top" },
-          { text: "Tools And Workshop", path: "/masters/categories/tools" },
-          { text: "Create Categories", path: "/masters/categories/create" },
         ],
       },
       {
