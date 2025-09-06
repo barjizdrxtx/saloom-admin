@@ -5,8 +5,6 @@ import Actions from "@/components/UI/TableUI/Components/Actions";
 
 const MEDIA_BASE = "https://saloom-api.amalgamatetechnologies.com";
 
-export type Mode = "grid" | "list";
-
 export type Category = {
   id: string;
   name?: string;
@@ -71,7 +69,9 @@ const ProductCard: React.FC<{ p: Product; onAfterAction: () => void }> = ({
   const id = p?.id;
   const name = (p?.name || "").trim() || "— Untitled —";
   const brandName = p?.brand?.name || "—";
-  const brandLogo = p?.brand?.logoUrl ? `${MEDIA_BASE}${p.brand.logoUrl}` : null;
+  const brandLogo = p?.brand?.logoUrl
+    ? `${MEDIA_BASE}${p.brand.logoUrl}`
+    : null;
   const img = p?.imageUrl ? `${MEDIA_BASE}${p.imageUrl}` : null;
   const updated = p?.updatedAt
     ? new Date(p.updatedAt).toLocaleString("en-IN", {
@@ -91,9 +91,18 @@ const ProductCard: React.FC<{ p: Product; onAfterAction: () => void }> = ({
       }`}
     >
       <div className="relative">
-        <div className={`aspect-square overflow-hidden bg-gray-100 ${disabled ? "grayscale" : ""}`}>
+        <div
+          className={`aspect-square overflow-hidden bg-gray-100 ${
+            disabled ? "grayscale" : ""
+          }`}
+        >
           {img ? (
-            <img src={img} alt={name} loading="lazy" className="h-full w-full object-cover" />
+            <img
+              src={img}
+              alt={name}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
           ) : (
             <div className="grid h-full w-full place-items-center text-xs text-gray-400">
               No image
@@ -101,12 +110,10 @@ const ProductCard: React.FC<{ p: Product; onAfterAction: () => void }> = ({
           )}
         </div>
 
-        <div className="absolute left-3 top-3 flex gap-2">
-          {p?.isHomepageProduct ? <Badge tone="amber" subtle>Homepage</Badge> : null}
-          {disabled ? <Badge tone="red" subtle>Disabled</Badge> : <Badge tone="green" subtle>Enabled</Badge>}
-        </div>
-
-        <div className="absolute right-3 top-3" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="absolute right-3 top-3"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="rounded-xl bg-white/95 px-2 py-1 ring-1 ring-gray-300 backdrop-blur shadow">
             <Actions
               id={id}
@@ -133,7 +140,9 @@ const ProductCard: React.FC<{ p: Product; onAfterAction: () => void }> = ({
           <span className="text-sm text-gray-700">{brandName}</span>
         </div>
         {p?.description?.trim() ? (
-          <p className="mt-2 line-clamp-2 text-xs text-gray-500">{p.description}</p>
+          <p className="mt-2 line-clamp-2 text-xs text-gray-500">
+            {p.description}
+          </p>
         ) : null}
         <div className="mt-3 text-[11px] text-gray-500">Updated: {updated}</div>
       </div>
@@ -148,7 +157,9 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
   const id = p?.id;
   const name = (p?.name || "").trim() || "— Untitled —";
   const brandName = p?.brand?.name || "—";
-  const brandLogo = p?.brand?.logoUrl ? `${MEDIA_BASE}${p.brand.logoUrl}` : null;
+  const brandLogo = p?.brand?.logoUrl
+    ? `${MEDIA_BASE}${p.brand.logoUrl}`
+    : null;
   const img = p?.imageUrl ? `${MEDIA_BASE}${p.imageUrl}` : null;
   const updated = p?.updatedAt
     ? new Date(p.updatedAt).toLocaleString("en-IN", {
@@ -173,19 +184,20 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
         }`}
       >
         {img ? (
-          <img src={img} alt={name} className="h-full w-full object-cover" loading="lazy" />
+          <img
+            src={img}
+            alt={name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
         ) : (
-          <div className="grid h-full w-full place-items-center text-xs text-gray-400">No image</div>
+          <div className="grid h-full w-full place-items-center text-xs text-gray-400">
+            No image
+          </div>
         )}
       </div>
 
       <div className="flex-1 py-3 pr-2">
-        <div className="flex flex-wrap items-center gap-2">
-          <h4 className="font-medium text-gray-900">{name}</h4>
-          {p?.isHomepageProduct ? <Badge tone="amber">Homepage</Badge> : null}
-          {disabled ? <Badge tone="red">Disabled</Badge> : <Badge tone="green">Enabled</Badge>}
-        </div>
-
         <div className="mt-1 flex items-center gap-2">
           {brandLogo ? (
             <img
@@ -199,7 +211,9 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
         </div>
 
         {p?.description?.trim() ? (
-          <p className="mt-1 line-clamp-1 text-xs text-gray-500">{p.description}</p>
+          <p className="mt-1 line-clamp-1 text-xs text-gray-500">
+            {p.description}
+          </p>
         ) : null}
 
         <div className="mt-1 text-[11px] text-gray-500">Updated: {updated}</div>
@@ -228,10 +242,17 @@ const CategoryHeader: React.FC<{
   onRefetch: () => void;
 }> = ({ cat, count, disabledCount, onAddProduct, onRefetch }) => {
   const flags = [
-    { key: "isEnabled", label: "Enabled", on: !!cat?.isEnabled },
     { key: "isInExplore", label: "Explore", on: !!cat?.isInExplore },
-    { key: "isInTopcategory", label: "Top Category", on: !!cat?.isInTopcategory },
-    { key: "isInToolsAndWorkshop", label: "Tools & Workshop", on: !!cat?.isInToolsAndWorkshop },
+    {
+      key: "isInTopcategory",
+      label: "Top Category",
+      on: !!cat?.isInTopcategory,
+    },
+    {
+      key: "isInToolsAndWorkshop",
+      label: "Tools & Workshop",
+      on: !!cat?.isInToolsAndWorkshop,
+    },
   ];
   const name = cat?.name || "Uncategorized";
   const catDisabled = !cat?.isEnabled;
@@ -240,22 +261,25 @@ const CategoryHeader: React.FC<{
     <div className="mb-3 px-2 sm:px-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h3 className={`text-xl font-semibold ${catDisabled ? "text-gray-700" : "text-gray-900"}`}>{name}</h3>
-          <Badge tone="gray" subtle>{count}</Badge>
-          {disabledCount > 0 ? <Badge tone="red" subtle>{disabledCount} disabled</Badge> : null}
+          <h3
+            className={`text-xl font-semibold ${
+              catDisabled ? "text-gray-700" : "text-gray-900"
+            }`}
+          >
+            {name}
+          </h3>
+          <Badge tone="gray" subtle>
+            {count}
+          </Badge>
+          {disabledCount > 0 ? (
+            <Badge tone="red" subtle>
+              {disabledCount} disabled
+            </Badge>
+          ) : null}
           {catDisabled ? <Badge tone="red">Category Disabled</Badge> : null}
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="rounded-xl bg-white px-2 py-1 ring-1 ring-gray-200">
-            <Actions
-              id={cat?.id}
-              editUrl="categories"
-              deleteApi="categories"
-              refetch={onRefetch}
-              actionButton={["EDIT", "DELETE"]}
-            />
-          </div>
           <button
             onClick={() => onAddProduct(cat)}
             className="rounded-xl bg-gray-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-black"
@@ -297,10 +321,9 @@ const CategoryHeader: React.FC<{
 const CategorySection: React.FC<{
   cat: Category;
   items: Product[];
-  mode: Mode;
   onAfterAction: () => void;
   onAddProduct: (cat: Category) => void;
-}> = ({ cat, items, mode, onAfterAction, onAddProduct }) => {
+}> = ({ cat, items, onAfterAction, onAddProduct }) => {
   const disabledCount = items.filter((p) => !p?.isEnabled).length;
 
   return (
@@ -317,14 +340,6 @@ const CategorySection: React.FC<{
         <div className="px-2 sm:px-4">
           <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-center text-gray-500">
             No products in this category yet.
-          </div>
-        </div>
-      ) : mode === "grid" ? (
-        <div className="px-2 sm:px-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 2xl:grid-cols-5">
-            {items.map((p) => (
-              <ProductCard key={p.id} p={p} onAfterAction={onAfterAction} />
-            ))}
           </div>
         </div>
       ) : (

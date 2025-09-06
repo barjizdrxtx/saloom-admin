@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import CategorySection, {
   Category,
-  Mode,
   Product,
 } from "./components/CategorySection";
 import CategoryTabs from "./components/CategoryTabs";
@@ -28,7 +27,6 @@ type Totals = { categories: number; products: number };
 export default function ProductsByCategoryPage(): JSX.Element {
   const router = useRouter();
 
-  const [mode, setMode] = useState<Mode>("grid");
   const [tab, setTab] = useState<"enabled" | "disabled">("enabled");
   const [query, setQuery] = useState<string>("");
 
@@ -181,8 +179,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
       <HeaderBar
         query={query}
         setQuery={setQuery}
-        mode={mode}
-        setMode={setMode}
         onAddCategory={handleAddCategory}
       />
 
@@ -214,7 +210,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
                       key={cat?.id || slugify(cat?.name || "uncategorized")}
                       cat={cat}
                       items={items}
-                      mode={mode}
                       onAfterAction={refresh}
                       onAddProduct={handleAddProduct}
                     />
@@ -229,7 +224,6 @@ export default function ProductsByCategoryPage(): JSX.Element {
                       isEnabled: true,
                     }}
                     items={uncategorizedItems}
-                    mode={mode}
                     onAfterAction={refresh}
                     onAddProduct={() =>
                       handleAddProduct({ id: "" } as Category)
@@ -251,7 +245,7 @@ export default function ProductsByCategoryPage(): JSX.Element {
                       key={cat?.id || slugify(cat?.name || "uncategorized")}
                       cat={cat}
                       items={items}
-                      mode={mode}
+      
                       onAfterAction={refresh}
                       onAddProduct={handleAddProduct}
                     />

@@ -1,60 +1,18 @@
 "use client";
 
 import React from "react";
-import { LayoutGrid, List } from "lucide-react";
 
-export type Mode = "grid" | "list";
 
 type Props = {
   query: string;
   setQuery: (q: string) => void;
-  mode: Mode;
-  setMode: (m: Mode) => void;
   onAddCategory: () => void;
 };
 
-const ViewToggle: React.FC<{ mode: Mode; setMode: (m: Mode) => void }> = ({
-  mode,
-  setMode,
-}) => {
-  const Btn: React.FC<{
-    k: Mode;
-    label: string;
-    icon: React.ComponentType<{ className?: string }>;
-  }> = ({ k, label, icon: Icon }) => {
-    const active = mode === k;
-    return (
-      <button
-        type="button"
-        onClick={() => setMode(k)}
-        aria-pressed={active}
-        title={label}
-        className={`inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm transition
-          ${
-            active
-              ? "bg-gray-900 text-white"
-              : "bg-white text-gray-700 ring-1 ring-gray-300 hover:bg-gray-50"
-          }`}
-      >
-        <Icon className="h-4 w-4" />
-        <span className="sr-only">{label}</span>
-      </button>
-    );
-  };
-
-  return (
-    <div className="flex items-center gap-2">
-      <Btn k="grid" label="Cards" icon={LayoutGrid} />
-      <Btn k="list" label="List" icon={List} />
-    </div>
-  );
-};
 
 const HeaderBar: React.FC<Props> = ({
   query,
   setQuery,
-  mode,
-  setMode,
   onAddCategory,
 }) => {
   return (
@@ -78,8 +36,6 @@ const HeaderBar: React.FC<Props> = ({
               ⌕
             </div>
           </div>
-
-          <ViewToggle mode={mode} setMode={setMode} />
 
           <button
             onClick={onAddCategory}
