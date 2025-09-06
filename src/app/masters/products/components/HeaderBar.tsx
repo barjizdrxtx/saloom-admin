@@ -39,7 +39,7 @@ const HeaderBar: React.FC<Props> = ({
 
           <button
             onClick={onAddCategory}
-            className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black"
+            className="rounded-xl bg-blue-500 px-4 py-3 text-sm font-medium text-white"
             title="Add Category"
           >
             Add Category

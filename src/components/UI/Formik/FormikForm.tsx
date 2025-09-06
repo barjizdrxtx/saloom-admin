@@ -37,14 +37,14 @@ const FormikForm = ({
         <div className="xs:hidden md:flex justify-end items-start">
           <button
             onClick={() => formik.handleSubmit()}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg shadow-md hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-transform duration-200"
+            className="px-4 py-2 border border-green-500  bg-green-500 text-white rounded-xl"
           >
             {editId ? "Update" : "Save"}
           </button>
           <div className="mx-2" />
           <button
             onClick={() => router.back()}
-            className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transform hover:scale-105 transition-transform duration-200"
+            className="px-4 py-2 border border-black rounded-xl"
           >
             Cancel
           </button>
