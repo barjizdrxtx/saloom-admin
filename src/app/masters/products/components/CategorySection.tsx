@@ -136,7 +136,7 @@ const ProductRow: React.FC<{ p: Product; onAfterAction: () => void }> = ({
             <span className="text-sm text-gray-700">{brandName}</span>
           </div>
         ) : (
-          <span className="text-sm text-gray-700">No Brand</span>
+          <span className="text-sm text-gray-400">No Brand</span>
         )}
       </div>
 
