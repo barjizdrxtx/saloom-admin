@@ -54,7 +54,7 @@ const CategoryPage = ({ editId }: any) => {
         });
 
         message.success(res?.data?.message || "Saved");
-        router.push("/masters/categories");
+        router.push("/masters/products");
       } catch (err: any) {
         message.error(err?.response?.data?.message || "Something went wrong");
       }
