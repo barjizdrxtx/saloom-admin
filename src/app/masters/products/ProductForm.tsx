@@ -130,7 +130,7 @@ const ProductForm = ({ editId }: any) => {
       dropData: brands,
       dropTitle: "name",
     },
-    { title: "Enabled", name: "isEnabled", type: "checkbox" },
+    { title: "is Enabled", name: "isEnabled", type: "checkbox" },
     { title: "Homepage Product", name: "isHomepageProduct", type: "checkbox" },
   ];
 
